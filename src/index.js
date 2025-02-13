@@ -16,6 +16,10 @@ const formProfile = document.forms['edit-profile'];                             
 const formCard = document.forms['new-place'];                                   // Вторая форма с двумя полями (создание карточки)
 const profileInputName = formProfile.elements.name;                             // Первый инпут первой формы (Имя)
 const profileInputDescription = formProfile.elements.description;               // Второй инпут первой формы (Занятие)
+const cardInputName = formCard.elements['place-name'];                          // Первый инпут второй формы (Название)
+const cardInputLink = formCard.elements['link'];                                // Второй инпут второй формы (Сссылка на картинку)
+const popupImage = popupTypeImage.querySelector('.popup__image');               // Адрес изображения в модальном окне кратинки карточки
+const popupCaption = popupTypeImage.querySelector('.popup__caption');           // Описание карточки в модальном окне кратинки карточки
 
 // @todo: Функция открытия формы профиля
 const handleProfileFormOpen = () => {
@@ -39,28 +43,28 @@ const handleProfileFormSubmit = (evt) => {
 const handleCardFromSubmit = (evt) => {
     evt.preventDefault();
 
-    const name = formCard.elements['place-name'];
-    const link = formCard.elements['link'];
+    const card = {name: '', link: ''};
+    card.name = cardInputName.value;
+    card.link = cardInputLink.value;
 
-    placesList.prepend(createCard(name.value, link.value, openImage, deleteCard, likeCard));
+    placesList.prepend(createCard(card, cardFunctions));
 
-    name.value = '';
-    link.value = '';
+    formCard.reset();
 
     closeModal(popupTypeNewCard);
 };
 
 // @todo: Функция открытия картинки карточки в отдельном окне
-const openImage = (name, link) => {
-    const popupImage = popupTypeImage.querySelector('.popup__image');
-    const popupCaption = popupTypeImage.querySelector('.popup__caption');
-
-    popupImage.src = link;
-    popupImage.alt = name;
-    popupCaption.textContent = name;
+const openImage = (card) => {
+    popupImage.src = card.link;
+    popupImage.alt = card.name;
+    popupCaption.textContent = card.name;
 
     openModal(popupTypeImage);
 };
+
+// @todo: Создаем объект с функциями для передачи в функцию создания карточки
+const cardFunctions = {openImage, deleteCard, likeCard};
 
 // @todo: Добавляем слушатели закрытия модальным окнам
 addListenerCloseModal(popupTypeEdit);
@@ -83,5 +87,5 @@ formCard.addEventListener('submit', handleCardFromSubmit);
 
 // @todo: Выводим на экран карточки из списка карточек при загрузке страницы
 initialCards.forEach((card) => {
-    placesList.append(createCard(card.name, card.link, openImage, deleteCard, likeCard));
+    placesList.append(createCard(card, cardFunctions));
 });
