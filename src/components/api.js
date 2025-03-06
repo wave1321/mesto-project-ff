@@ -91,11 +91,15 @@ export const deleteLikeCard = (id) => {
 // @todo: Функция проверки изображения по ссылке
 export const checkImagelLink = (src) => {
     return fetch(src, {
-        method: 'HEAD',
-        headers: {'Content-Type': 'application/json' }
+        method: 'HEAD'
     })
-        .then(res => handleResponse(res));
-};
+        .then(res => {if (res.ok) {
+            return res;
+        };
+
+            return Promise.reject(`Ошибка: ${res.status}`)
+        })
+    };
 
 // @todo: Функция проверки ответа
 const handleResponse = (res) => {

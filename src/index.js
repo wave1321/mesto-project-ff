@@ -61,13 +61,17 @@ const handleProfileFormSubmit = (evt) => {
 const handleAvatarFormSubmit = (evt) => {
     evt.preventDefault();
 
-    renderSaving(true, popupTypeAvatar);
+    checkImagelLink(avatarLink.value)
+        .then((res) => {
+                renderSaving(true, popupTypeAvatar);
 
-    setUserAvatar(avatarLink.value)
-        .then((res) => { profileAvatar.setAttribute('src', res.avatar); })
-        .then(() => closeModal(popupTypeAvatar))
-        .catch((err) => { console.log(err); })
-        .finally(() => renderSaving(false, popupTypeAvatar));
+                setUserAvatar(avatarLink.value)
+                    .then((res) => { profileAvatar.setAttribute('src', res.avatar); })
+                    .then(() => closeModal(popupTypeAvatar))
+                    .catch((err) => { console.log(err); })
+                    .finally(() => renderSaving(false, popupTypeAvatar));
+        })
+        .catch((err) => { console.log(err); });
 };
 
 // @todo: Функция отправки формы карточек
@@ -194,12 +198,12 @@ const renderSaving = (isSaving, popup) => {
     }
 };
 
-console.log(getInitialCards());
+/*console.log(getInitialCards());
 console.log(getInitialUser());
 
-checkImagelLink('https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg')
+checkImagelLink('https://a.l3n.co/i/puv8A.jpg')
     .then((res) => console.log(res))
-    .catch((err) => { console.log(err); });
+    .catch((err) => { console.log(err); });*/
 
 // @todo: Включаем валидацию
 enableValidation();
