@@ -197,8 +197,9 @@ const renderSaving = (isSaving, popup) => {
 console.log(getInitialCards());
 console.log(getInitialUser());
 
-checkImagelLink('https://2.img-dpreview.com/files/g/TS1120x1120~3960763.jpg')
-.then((res) => console.log(res));
+checkImagelLink('https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg')
+    .then((res) => console.log(res))
+    .catch((err) => { console.log(err); });
 
 // @todo: Включаем валидацию
 enableValidation();

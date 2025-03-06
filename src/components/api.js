@@ -92,7 +92,6 @@ export const deleteLikeCard = (id) => {
 export const checkImagelLink = (src) => {
     return fetch(src, {
         method: 'HEAD',
-        mode: 'no-cors',
         headers: {'Content-Type': 'application/json' }
     })
         .then(res => handleResponse(res));
