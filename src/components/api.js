@@ -88,19 +88,6 @@ export const deleteLikeCard = (id) => {
         .then(res => handleResponse(res));
 };
 
-// @todo: Функция проверки изображения по ссылке
-export const checkImagelLink = (src) => {
-    return fetch(src, {
-        method: 'HEAD'
-    })
-        .then(res => {if (res.ok) {
-            return res;
-        };
-
-            return Promise.reject(`Ошибка: ${res.status}`)
-        })
-    };
-
 // @todo: Функция проверки ответа
 const handleResponse = (res) => {
     if (res.ok) {

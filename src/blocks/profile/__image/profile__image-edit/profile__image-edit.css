@@ -1,0 +1,5 @@
+.profile__image-edit {
+    visibility: hidden;
+    position: relative;
+    left: -100px;
+}

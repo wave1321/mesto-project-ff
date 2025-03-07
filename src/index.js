@@ -61,17 +61,14 @@ const handleProfileFormSubmit = (evt) => {
 const handleAvatarFormSubmit = (evt) => {
     evt.preventDefault();
 
-    checkImagelLink(avatarLink.value)
-        .then((res) => {
-                renderSaving(true, popupTypeAvatar);
+    renderSaving(true, popupTypeAvatar);
 
-                setUserAvatar(avatarLink.value)
-                    .then((res) => { profileAvatar.setAttribute('src', res.avatar); })
-                    .then(() => closeModal(popupTypeAvatar))
-                    .catch((err) => { console.log(err); })
-                    .finally(() => renderSaving(false, popupTypeAvatar));
-        })
-        .catch((err) => { console.log(err); });
+    setUserAvatar(avatarLink.value)
+        .then((res) => { profileAvatar.setAttribute('src', res.avatar); })
+        .then(() => closeModal(popupTypeAvatar))
+        .catch((err) => { console.log(err); })
+        .finally(() => renderSaving(false, popupTypeAvatar));
+
 };
 
 // @todo: Функция отправки формы карточек
@@ -197,13 +194,6 @@ const renderSaving = (isSaving, popup) => {
         popupButton.textContent = "Сохранить";
     }
 };
-
-/*console.log(getInitialCards());
-console.log(getInitialUser());
-
-checkImagelLink('https://a.l3n.co/i/puv8A.jpg')
-    .then((res) => console.log(res))
-    .catch((err) => { console.log(err); });*/
 
 // @todo: Включаем валидацию
 enableValidation();
