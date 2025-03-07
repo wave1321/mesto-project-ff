@@ -17,7 +17,6 @@
   position: absolute;
   left: 0;
   opacity: 1;
-
 }
 
 @media screen and (max-width: 740px) {
@@ -33,7 +32,7 @@
 }
 
 .profile__image:hover {
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
 .profile__image:hover + .profile__image-edit {

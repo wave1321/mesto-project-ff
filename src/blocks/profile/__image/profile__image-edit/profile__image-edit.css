@@ -2,4 +2,9 @@
     visibility: hidden;
     position: relative;
     left: -100px;
+    pointer-events: none;
+}
+
+.profile__image-edit:hover {
+    visibility: visible;
 }
