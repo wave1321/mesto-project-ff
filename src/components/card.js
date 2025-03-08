@@ -4,14 +4,7 @@ const getTemplate = () => {
       .querySelector("#card-template")
       .content.querySelector(".card")
       .cloneNode(true);
-}; 
-
-// @todo: Функция удаления карточки
-/*export const deleteCard = (element, id, deleteCurrentCard) => {
-    deleteCurrentCard(id)
-        .then(element.remove())
-        .catch((err) => { console.log(err); }); 
-};*/
+};
 
 // @todo: Функция лайка карточки
 export const likeCard = (element, id, putLikeCard, deleteLikeCard) => {

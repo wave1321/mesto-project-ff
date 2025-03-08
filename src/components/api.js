@@ -36,7 +36,7 @@ export const setInitialUser = (name, about) => {
         .then(res => handleResponse(res));
 };
 
-// @todo: Функция загрузки аватара пользователя нв сервер
+// @todo: Функция загрузки аватара пользователя на сервер
 export const setUserAvatar = (avatar) => {
     return fetch(`${apiConfig.baseUrl}/users/me/avatar`, {
         method: 'PATCH',
@@ -95,4 +95,4 @@ const handleResponse = (res) => {
     };
 
     return Promise.reject(`Ошибка: ${res.status}`)
-}
+};

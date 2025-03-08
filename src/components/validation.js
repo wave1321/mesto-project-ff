@@ -1,31 +1,21 @@
-// @todo: Создаем конфиг объект для настройки валидации
-export const formValidationConfig = {
-    formSelector: ".popup__form",
-    inputSelector: ".popup__input",
-    submitButtonSelector: ".popup__button",
-    inactiveButtonClass: "popup__button_disabled",
-    inputErrorClass: "popup__input_type_error",
-    errorClass: "popup__error_visible",
-};
-
 // @todo: Функция показать ошибку
-const showInputError = (formElement, inputElement, errorMessage) => { 
+const showInputError = (formElement, inputElement, errorMessage, config) => { 
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.add(formValidationConfig.inputErrorClass);
+  inputElement.classList.add(config.inputErrorClass);
   errorElement.textContent = errorMessage;
-  errorElement.classList.add(formValidationConfig.errorClass);
+  errorElement.classList.add(config.errorClass);
 };
 
 // @todo: Функция скрыть ошибку
-const hideInputError = (formElement, inputElement) => {
+const hideInputError = (formElement, inputElement, config) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  inputElement.classList.remove(formValidationConfig.inputErrorClass);
-  errorElement.classList.remove(formValidationConfig.errorClass);
+  inputElement.classList.remove(config.inputErrorClass);
+  errorElement.classList.remove(config.errorClass);
   errorElement.textContent = '';
 };
 
 // @todo: Функция проверки валидности
-const checkInputValidity = (formElement, inputElement) => {
+const checkInputValidity = (formElement, inputElement, config) => {
   if (inputElement.validity.patternMismatch) {
     inputElement.setCustomValidity(inputElement.dataset.message);
   } else {
@@ -33,9 +23,9 @@ const checkInputValidity = (formElement, inputElement) => {
   }
 
   if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
+    showInputError(formElement, inputElement, inputElement.validationMessage, config);
   } else {
-    hideInputError(formElement, inputElement);
+    hideInputError(formElement, inputElement, config);
   }
 };
 
@@ -47,60 +37,60 @@ const hasInvalidInput = (inputList) => {
 };
 
 // @todo: Функция отключения активности кнопки
-const disableSubmitButton = (buttonElement) => {
+const disableSubmitButton = (buttonElement, config) => {
   buttonElement.disabled = true;
-  buttonElement.classList.add(formValidationConfig.inactiveButtonClass);
+  buttonElement.classList.add(config.inactiveButtonClass);
 };
 
 // @todo: Функция включения активности кнопки
-const enableSubmitButton = (buttonElement) => {
+const enableSubmitButton = (buttonElement, config) => {
   buttonElement.disabled = false;
-  buttonElement.classList.remove(formValidationConfig.inactiveButtonClass);
+  buttonElement.classList.remove(config.inactiveButtonClass);
 };
 
 // @todo: Функция проверки валидности форм
-const toggleButtonState = (inputList, buttonElement) => {
+const toggleButtonState = (inputList, buttonElement, config) => {
   if (hasInvalidInput(inputList)) {
-    disableSubmitButton(buttonElement);
+    disableSubmitButton(buttonElement, config);
   } else {
-    enableSubmitButton(buttonElement);
+    enableSubmitButton(buttonElement, config);
   }
 };
 
 // @todo: Функция добавления слушателей инпутам
-const setEventListeners = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll(formValidationConfig.inputSelector));
-  const buttonElement = formElement.querySelector(formValidationConfig.submitButtonSelector);
+const setEventListeners = (formElement, config) => {
+  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+  const buttonElement = formElement.querySelector(config.submitButtonSelector);
 
-  toggleButtonState(inputList, buttonElement);
+  toggleButtonState(inputList, buttonElement, config);
 
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
-      checkInputValidity(formElement, inputElement);
-      toggleButtonState(inputList, buttonElement);
+      checkInputValidity(formElement, inputElement, config);
+      toggleButtonState(inputList, buttonElement, config);
     });
   });
 };
 
 // @todo: Функция влючения валидации
-export const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll(formValidationConfig.formSelector));
+export const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector));
 
   formList.forEach((formElement) => {
     formElement.addEventListener('submit', (evt) => {
         evt.preventDefault();
       });
-    setEventListeners(formElement);
+    setEventListeners(formElement, config);
   });
 };
 
 // @todo: Функция очистки валидации форм
-export const clearValidation = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll(formValidationConfig.inputSelector));
-  const buttonElement = formElement.querySelector(formValidationConfig.submitButtonSelector);
+export const clearValidation = (formElement, config) => {
+  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
+  const buttonElement = formElement.querySelector(config.submitButtonSelector);
 
   inputList.forEach((inputElement) => {
-    hideInputError(formElement, inputElement);
-    toggleButtonState(inputList, buttonElement)
+    hideInputError(formElement, inputElement, config);
   });
+  toggleButtonState(inputList, buttonElement, config)
 };

@@ -2,7 +2,7 @@ import './pages/index.css';
 import { createCard, likeCard } from './components/card.js';
 import { openModal, closeModal, addListenerCloseModal } from './components/modal.js';
 import { enableValidation, clearValidation } from './components/validation.js';
-import { getInitialUser, getInitialCards, setInitialUser, setUserAvatar, postNewCard, deleteCurrentCard, putLikeCard, deleteLikeCard, checkImagelLink } from './components/api.js';
+import { getInitialUser, getInitialCards, setInitialUser, setUserAvatar, postNewCard, deleteCurrentCard, putLikeCard, deleteLikeCard } from './components/api.js';
 
 // @todo: DOM узлы
 const placesList = document.querySelector('.places__list');                     // Список краточек
@@ -32,12 +32,22 @@ const popupCaption = popupTypeImage.querySelector('.popup__caption');           
 let userId = null;                                                              // ID-ключ пользовтеля для связи данных
 let cardForDelete = {};                                                         // Данные удаляемой карточки
 
+// @todo: Создаем конфиг объект для настройки валидации
+const formValidationConfig = {
+    formSelector: ".popup__form",
+    inputSelector: ".popup__input",
+    submitButtonSelector: ".popup__button",
+    inactiveButtonClass: "popup__button_disabled",
+    inputErrorClass: "popup__input_type_error",
+    errorClass: "popup__error_visible",
+};
+
 // @todo: Функция открытия формы профиля
 const handleProfileFormOpen = () => {
     profileInputName.value = profileTitle.textContent;
     profileInputDescription.value = profileDescription.textContent;
 
-    clearValidation(formProfile);
+    clearValidation(formProfile, formValidationConfig);
     openModal(popupTypeEdit);
 };
 
@@ -145,7 +155,7 @@ formProfile.addEventListener('submit', handleProfileFormSubmit);
 // @todo: Слушаем открытие окна обновления аватара
 profileAvatar.addEventListener('click', () => {
     formAvatar.reset();
-    clearValidation(formAvatar);
+    clearValidation(formAvatar, formValidationConfig);
     openModal(popupTypeAvatar);
 });
 
@@ -155,7 +165,7 @@ formAvatar.addEventListener('submit', handleAvatarFormSubmit);
 // @todo: Слушаем открытие окна добавления карточки
 profileAddButton.addEventListener('click', () => {
     formCard.reset();
-    clearValidation(formCard);
+    clearValidation(formCard, formValidationConfig);
     openModal(popupTypeNewCard);
 });
 
@@ -196,4 +206,4 @@ const renderSaving = (isSaving, popup) => {
 };
 
 // @todo: Включаем валидацию
-enableValidation();
+enableValidation(formValidationConfig);
